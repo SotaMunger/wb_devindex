@@ -1,0 +1,60 @@
+#left-container {
+    height: 820px;
+    width: 320px;
+    background-color:#BAD0E3;  
+    float: left;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+#right-container {
+    float: right;
+}
+
+#line-graph {
+    height: 400px;
+    width: 1450px;
+    background-color: #BAD0E3;
+    /* float: right; */
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+#non-temporal_graphs {
+    /* float: right; */
+    /* width: 1460px; */
+}
+
+.choropleth {
+    margin-top: 20px;
+    margin-right: 10px;
+    height: 400px;
+    width: 720px;
+    display: inline-block;
+}
+
+.violin {
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 20px;
+    height: 400px;
+    width: 720px;
+    display: inline-block;
+}
+
+.dropdown {
+    width: 280px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.menu-title {
+    margin-left: 20px;
+}
+
+.globe {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
