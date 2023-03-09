@@ -153,7 +153,8 @@ layout = html.Div(children = [
                         config = {'displayModeBar': False},
                     )
                 ],
-                id = 'line-graph',
+                id = 'line-graph1',
+                className = 'line-graph',
             ),
             # Imports Year
             # html.Div(

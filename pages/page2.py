@@ -280,7 +280,7 @@ def update_figure(indicator, income, year):
         paper_bgcolor = '#BAD0E3', 
         font_size = 14,
         plot_bgcolor='#E8EFF6',
-        title_text = "CPI by Year",
+        title_text = "Imports by Year (as % of Total Merchandise Imports)",
         legend_title = "<b>Income Groups</b>",
     )
     fig3.update_xaxes(
