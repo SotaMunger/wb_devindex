@@ -123,13 +123,24 @@ layout = html.Div(children = [
                 style = {'display': 'inline-block', 'padding': '5px'},
             )
         ]
-    )    
+    ),
+    html.Div(
+        children = [
+            dcc.Graph(
+                id='imports_line2',
+                config = {'displayModeBar': False},
+            )
+        ],
+        id = 'line-graph2',
+        className = 'line-graph'
+    )
 ])
 
 # define callbacks - inputs include indicator, income group, and year
 @callback(
     Output('imports_choropleth2', 'figure'),
     Output('imports_histogram2', 'figure'),
+    Output('imports_line2', 'figure'),
     Input('indicator_dropdown', 'value'),
     Input('income_dropdown', 'value'),
     Input('year_slider', 'value'))
@@ -180,8 +191,10 @@ def update_figure(indicator, income, year):
     filtered_median = np.median(filtered_df[year].loc[filtered_df[year].notna()])
     filtered_mean = np.mean(filtered_df[year].loc[filtered_df[year].notna()])
     percent = filtered_df['country_name']
-    # define graph structures
 
+    df_med_per_year = df_no_uc.groupby('income_group').median('numeric_only').transpose()
+
+    # define graph structures
     fig1 = go.Figure(
         data = [
             go.Choropleth(
@@ -202,6 +215,7 @@ def update_figure(indicator, income, year):
         colorscale = 'sunsetdark',
         hovertemplate = ('%{z:.2f}% <extra>%{text}</extra>'), text = percent,
     )
+
     fig2 = px.violin(
         filtered_df_no_uc,
         x = year,
@@ -247,4 +261,38 @@ def update_figure(indicator, income, year):
         box_visible = True,   
     )
 
-    return fig1, fig2
+    fig3 = px.line(
+        df_med_per_year,
+        color_discrete_map = {
+            'Low income': '#001D9B',
+            'Lower middle income': '#31009B',
+            'Upper middle income': '#7E009B',
+            'High income': '#9B006B',
+            },
+        category_orders = {
+            "income_group": [
+                "Low income", "Lower middle income",
+                "Upper middle income", "High income",
+            ],
+        },
+    )
+    fig3.update_layout(
+        paper_bgcolor = '#BAD0E3', 
+        font_size = 14,
+        plot_bgcolor='#E8EFF6',
+        title_text = "CPI by Year",
+        legend_title = "<b>Income Groups</b>",
+    )
+    fig3.update_xaxes(
+        showgrid = False, 
+        zeroline = False,
+        title = "Year"
+    )
+    fig3.update_yaxes(
+        # showticklabels = False,
+        showgrid = False,
+        zeroline = False,
+        title = "Index Value",
+    )
+
+    return fig1, fig2, fig3
