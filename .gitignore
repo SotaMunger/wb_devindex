@@ -133,3 +133,8 @@ dmypy.json
 requirements.txt
 *.zip
 README.md
+
+# Pycache files
+__pychache__/
+components/__pychache__/
+pages/__pychache__/
