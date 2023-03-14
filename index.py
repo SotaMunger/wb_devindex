@@ -20,9 +20,9 @@ nav = dbc.NavbarSimple(
     children = [
         dbc.DropdownMenu(
             children = [
-                dbc.DropdownMenuItem("Home", href = "http://127.0.0.1:8050/home"),
-                dbc.DropdownMenuItem("Inflation", href = "http://127.0.0.1:8050/inflation"),
-                dbc.DropdownMenuItem("Imports", href = "http://127.0.0.1:8050/imports")
+                dbc.DropdownMenuItem("Home", href = "http://wb-devindex.onrender.com"),
+                dbc.DropdownMenuItem("Inflation", href = "http://wb-devindex.onrender.com/inflation"),
+                dbc.DropdownMenuItem("Imports", href = "http://wb-devindex.onrender.com/imports")
             ],
             nav=True,
             in_navbar = True,
