@@ -42,90 +42,162 @@ dates.rename(mapper = col_dict, axis = 1, inplace=True)
 income_dict = {"World": "World", "Low income": "Low Income", "Lower middle income": "Lower Middle Income", \
     "Upper middle income": "Upper Middle Income", "High income": "High Income", "Uncategorized": "Uncategorized"}
 
-indicator_dict = indicator_dict = {
-    "inflation_consumer_prices": "Inflation (% Shift in Consumer Prices over Previous Year)", 
-    "consumer_price_index": "Consumer Price Index (Relative to 2010 Reference)"
+indicator_dict = [
+    {
+        "label": "Inflation",
+        "value": "inflation_consumer_prices",
+        "title": "Inflation (% Shift in Consumer Prices over Previous Year)"
+    },
+    {
+        "label": "Consumer Price Index",
+        "value": "consumer_price_index",
+        "title": "Consumer Price Index (Relative to 2010 Reference)"        
     }
-
+    # {
+    # "inflation_consumer_prices": "Inflation (% Shift in Consumer Prices over Previous Year)", 
+    # "consumer_price_index": "Consumer Price Index (Relative to 2010 Reference)"
+    # }
+]
 # Define the page layout
 layout = html.Div(children = [
+    # html.Div(
+    #     children = [
+    #         html.H2(
+    #             children = 'Inflationary Measures',
+    #             style = {'textAlign': 'center', 'color': '#A3B6C7', 'margin': '10px'}
+    #         )
+    #     ]
+    # ),
     # Inflation Indicator Dropdown
-    html.Div(
-        children = [
-            html.Div(
-                children = [
-                    html.Div(
-                        children = "Inflation Indicator", 
-                        className = "menu-title"),
-                    dcc.Dropdown(
-                        indicator_dict,
-                        id = "indicator_dropdown",
-                        value = "inflation_consumer_prices"
-                            ),
-                ],
-                style=dict(width='50%')
-            ),
-            # Income group dropdown
-            html.Div(
-                children = [
-                    html.Div(
-                        children = "Income Group", 
-                        className = "menu-title"
-                    ),
-                    dcc.Dropdown(
-                        income_dict,
-                        id = "income_dropdown",
-                        value = "World",
-                    ),
-                ],
-                style=dict(width='50%')
-            ),
-        ],
-        style=dict(display='flex')
-    ),
-    # Imports Year
-    html.Div(
-        children = [
-            html.Div(children = "Year", className = "menu-title"),    
-            dcc.Slider(
-                dates.columns.min(),
-                dates.columns.max(),
-                step=None,
-                value=dates.columns.min(),
-                marks={str(int(i)): str(int(i)) for i in dates.columns},
-                id='year_slider',
-            )
-        ]
-    ),
     html.Div(
         children = [
             html.H2(
                 children = 'Inflationary Measures',
-                style = {'textAlign': 'center', 'color': '#A3B6C7', 'margin': '10px'}
-            )
-        ]
+                style = {'textAlign': 'center', 'color': '#FFFFFF', 'margin': '10px'}
+            ),
+            html.Br(),
+            html.Img(
+                    src = "assets/globe1.png",
+                    width = 240,
+                    className = "globe",
+            ),
+            html.Br(),
+            html.Label(
+                children = "Inflation Indicator", 
+                className = "menu-title"
+            ),
+            dcc.Dropdown(
+                indicator_dict,
+                id = "indicator_dropdown",
+                value = "inflation_consumer_prices",
+                className = 'dropdown',
+                clearable=False
+            ),
+            html.Br(),
+            html.Div(
+                children = "Income Group", 
+                className = "menu-title"
+            ),
+            dcc.Dropdown(
+                income_dict,
+                id = "income_dropdown",
+                value = "World",
+                className = 'dropdown',
+                clearable=False
+            ),
+            html.Br(),
+            html.Div(
+                children = "Year", 
+                className = "menu-title"
+            ),    
+            dcc.Slider(
+                min = dates.columns.min(),
+                max = dates.columns.max(),
+                step = 1,
+                value=dates.columns.min(),
+                marks = {2001: '2001', 
+                         2005: '2005',
+                         2010: '2010',
+                         2015: '2015', 
+                         2020: '2020'
+                },
+                # marks={str(int(i)): str(int(i)) for i in dates.columns},
+                tooltip={"placement": "bottom"},
+                id='year_slider',
+            )                    
+            # Income group dropdown
+            # html.Div(
+            #     children = [
+            #         html.Div(
+            #             children = "Income Group", 
+            #             className = "menu-title"
+            #         ),
+            #         dcc.Dropdown(
+            #             income_dict,
+            #             id = "income_dropdown",
+            #             value = "World",
+            #         ),
+            #     ],
+            #     style=dict(width='100%')
+            # ),
+        ], 
+        id='left-container',
+        # style=dict(display='flex')
     ),
     html.Div(
         children = [
-            dcc.Graph(
-                id='imports_choropleth1',
-                config = {"displayModeBar": False},
-                style = {'display': 'inline-block', 'padding': '5px'},
+            html.Div(
+                children = [
+                    dcc.Graph(
+                        id='imports_line1',
+                        config = {'displayModeBar': False},
+                    )
+                ],
+                id = 'line-graph',
             ),
-            dcc.Graph(
-                id='imports_histogram1',
-                config = {"displayModeBar": False},
-                style = {'display': 'inline-block', 'padding': '5px'},
+            # Imports Year
+            # html.Div(
+            #     children = [
+            #         html.Div(
+            #             children = "Year", 
+            #             className = "menu-title"
+            #         ),    
+            #         dcc.Slider(
+            #             dates.columns.min(),
+            #             dates.columns.max(),
+            #             step=None,
+            #             value=dates.columns.min(),
+            #             marks={str(int(i)): str(int(i)) for i in dates.columns},
+            #             id='year_slider',
+            #         )
+            #     ]
+            # ),
+            html.Div(
+                children = [
+                    dcc.Graph(
+                        id='imports_choropleth1',
+                        className = 'choropleth',
+                        config = {"displayModeBar": False},
+                        # style = {'display': 'inline-block'},
+                    ),
+                    dcc.Graph(
+                        id='imports_histogram1',
+                        className = 'violin',
+                        config = {"displayModeBar": False},
+                        # style = {'display': 'inline-block'},
+                    ),
+                ], id = 'non-temporal_graphs',
+                    # style=dict(display='flex')
             ),
-        ]
-    ),
-    html.Div(
-        children = [
-            dcc.Graph(
-                id='imports_line1',
-                config = {'displayModeBar': False},
-            )
-        ]
+            # html.Div(
+            #     children = [
+            #         dcc.Graph(
+            #             id='imports_line1',
+            #             config = {'displayModeBar': False},
+            #         )
+            #     ]
+            # )
+        ], id = 'right-container'
     )
 ])
 
@@ -189,203 +261,266 @@ def update_figure(indicator, income, year):
     df_med_per_year = df_no_uc.groupby('income_group').median('numeric_only').transpose()
 
     # define graph structures
+    # if indicator == "inflation_consumer_prices":
+    fig1 = go.Figure(
+        data = [
+            go.Choropleth(
+                locations = locations,
+                z = filtered_df[year],
+            )
+        ]    
+    )        
+    fig1.update_layout(
+        paper_bgcolor = '#BAD0E3', 
+        font_size = 14,
+        plot_bgcolor='#E8EFF6',
+        # title_text = "Inflation by Country",
+        legend_title = "<b>Income Groups</b>",
+        margin=dict(l=60, r=60, t=60, b=60),
+        width = 710,
+        height = 400,
+    )
+
     if indicator == "inflation_consumer_prices":
-        fig1 = go.Figure(
-            data = [
-                go.Choropleth(
-                    locations = locations,
-                    z = filtered_df[year],
-                )
-            ]    
-        )        
         fig1.update_layout(
-            paper_bgcolor = '#BAD0E3', 
-            font_size = 14,
-            plot_bgcolor='#E8EFF6',
-            legend_title = "<b>Income Groups</b>",
-            width = 910,
-            height = 500,
+            title_text = "Inflation by Country"
         )
-        fig1.update_traces(
-            colorscale = 'sunsetdark',
-            hovertemplate = ('%{z:.2f}% <extra>%{text}</extra>'), text = percent,
-        )
-
-        fig2 = px.violin(
-            filtered_df_no_uc,
-            x = year,
-            y = 'income_group',
-            color = 'income_group',
-            color_discrete_map = {
-                'Low income': '#001D9B',
-                'Lower middle income': '#31009B',
-                'Upper middle income': '#7E009B',
-                'High income': '#9B006B',
-            },
-            category_orders = {
-                "income_group": [
-                    "Low income", "Lower middle income",
-                    "Upper middle income", "High income",
-                ],
-            },
-            custom_data = ['country_name'],
-        )
-        fig2.update_layout(
-            paper_bgcolor = '#BAD0E3', 
-            font_size = 14,
-            plot_bgcolor='#E8EFF6',
-            legend_title = "<b>Income Groups</b>",
-            width = 910,
-            height = 500
-        )
-        fig2.update_xaxes(
-            showgrid = False, 
-            zeroline = False,
-            title = "% Inflation"
-        )
-        fig2.update_yaxes(
-            showticklabels = False,
-            title = None,
-        )
-        fig2.update_traces(
-            points = "all",
-            hovertemplate = "%{x:.2f}%<extra>%{customdata[0]}</extra>",
-            hoveron = "points + kde",
-            box_visible = True,
-            jitter = 0.5
-        )
-
-        fig3 = px.line(
-            df_med_per_year,
-            color_discrete_map = {
-                'Low income': '#001D9B',
-                'Lower middle income': '#31009B',
-                'Upper middle income': '#7E009B',
-                'High income': '#9B006B',
-                },
-            category_orders = {
-                "income_group": [
-                    "Low income", "Lower middle income",
-                    "Upper middle income", "High income",
-                ],
-            },
-        )
-        fig3.update_layout(
-            paper_bgcolor = '#BAD0E3', 
-            font_size = 14,
-            plot_bgcolor='#E8EFF6',
-            legend_title = "<b>Income Groups</b>",
-        )
-        fig3.update_xaxes(
-            showgrid = False, 
-            zeroline = False,
-            title = "Year"
-        )
-        fig3.update_yaxes(
-            # showticklabels = False,
-            showgrid = False,
-            zeroline = False,
-            title = "Median % Inflation",
-        )
-
-        return fig1, fig2, fig3
-
-    elif indicator == "consumer_price_index":
-        fig1 = go.Figure(
-            data = [
-                go.Choropleth(
-                    locations = locations,
-                    z = filtered_df[year],
-                )
-            ]    
-        )
+    else:
         fig1.update_layout(
-            paper_bgcolor = '#BAD0E3', 
-            font_size = 14,
-            plot_bgcolor='#E8EFF6',
-            legend_title = "<b>Income Groups</b>",
-            width = 910,
-            height = 500,
+            title_text = "CPI by Country"
         )
-        fig1.update_traces(
-            colorscale = 'sunsetdark',
-            hovertemplate = ('%{z:.2f}% <extra>%{text}</extra>'), text = percent,
-        ) 
 
-        fig2 = px.violin(
-            filtered_df_no_uc,
-            x = year,
-            y = 'income_group',
-            color = 'income_group',
-            color_discrete_map = {
-                'Low income': '#001D9B',
-                'Lower middle income': '#31009B',
-                'Upper middle income': '#7E009B',
-                'High income': '#9B006B',
-            },
-            category_orders = {
-                "income_group": [
-                    "Low income", "Lower middle income",
-                    "Upper middle income", "High income",
-                ],
-            },
-            custom_data = ['country_name'],
-        )
+    fig1.update_traces(
+        colorscale = 'sunsetdark',
+        colorbar_title_text = "Inflation",
+        hovertemplate = ('%{z:.2f}% <extra>%{text}</extra>'), text = percent,
+    )
+
+    fig2 = px.violin(
+        filtered_df_no_uc,
+        x = year,
+        y = 'income_group',
+        color = 'income_group',
+        color_discrete_map = {
+            'Low income': '#001D9B',
+            'Lower middle income': '#31009B',
+            'Upper middle income': '#7E009B',
+            'High income': '#9B006B',
+        },
+        category_orders = {
+            "income_group": [
+                "Low income", "Lower middle income",
+                "Upper middle income", "High income",
+            ],
+        },
+        custom_data = ['country_name'],
+    )
+    fig2.update_layout(
+        paper_bgcolor = '#BAD0E3', 
+        font_size = 14,
+        plot_bgcolor='#E8EFF6',
+        legend_title = "<b>Income Groups</b>",
+        # title_text = "Inflation Distributions",
+        width = 710,
+        height = 400
+    )
+
+    if indicator == "inflation_consumer_prices":
         fig2.update_layout(
-            paper_bgcolor = '#BAD0E3', 
-            font_size = 14,
-            plot_bgcolor='#E8EFF6',
-            legend_title = "<b>Income Groups</b>",
-            width = 910,
-            height = 500  
+            title_text = "Inflation Distributions"
         )
+    else:
+        fig2.update_layout(
+            title_text = "CPI Distributions"
+        )
+
+    fig2.update_xaxes(
+        showgrid = False, 
+        zeroline = False,
+        # title = "Percent Inflation"
+    )
+
+    if indicator == "inflation_consumer_prices":
         fig2.update_xaxes(
-            showgrid = False, 
-            zeroline = False,
-            title = "Consumer Price Index"
+            title = "Percent Inflation"
         )
-        fig2.update_yaxes(
-            showticklabels = False,
-            title = None,
-        )
-        fig2.update_traces(
-            points = "all",
-            hovertemplate = "%{x:.2f}%<extra>%{customdata[0]}</extra>",
-            hoveron = "points + kde",
-            box_visible = True,   
+    else:
+        fig2.update_xaxes(
+            title_text = "Price Index"
         )
 
-        fig3 = px.line(
-            df_med_per_year,
-            color_discrete_map = {
-                'Low income': '#001D9B',
-                'Lower middle income': '#31009B',
-                'Upper middle income': '#7E009B',
-                'High income': '#9B006B',
-                },
-            category_orders = {
-                "income_group": [
-                    "Low income", "Lower middle income",
-                    "Upper middle income", "High income",
-                ],
+    fig2.update_yaxes(
+        showticklabels = False,
+        title = None,
+    )
+    fig2.update_traces(
+        points = "all",
+        hovertemplate = "%{x:.2f}%<extra>%{customdata[0]}</extra>",
+        hoveron = "points + kde",
+        box_visible = True,
+        jitter = 0.5
+    )
+
+    fig3 = px.line(
+        df_med_per_year,
+        color_discrete_map = {
+            'Low income': '#001D9B',
+            'Lower middle income': '#31009B',
+            'Upper middle income': '#7E009B',
+            'High income': '#9B006B',
             },
-        )
+        category_orders = {
+            "income_group": [
+                "Low income", "Lower middle income",
+                "Upper middle income", "High income",
+            ],
+        },
+    )
+    fig3.update_layout(
+        paper_bgcolor = '#BAD0E3', 
+        font_size = 14,
+        plot_bgcolor='#E8EFF6',
+        legend_title = "<b>Income Groups</b>",
+        # title_text = "Inflation by Year",
+        width = 1450,
+        height = 400,
+    )
+
+    if indicator == "inflation_consumer_prices":
         fig3.update_layout(
-            paper_bgcolor = '#BAD0E3', 
-            font_size = 14,
-            plot_bgcolor='#E8EFF6',
-            legend_title = "<b>Income Groups</b>",
+            title_text = "Inflation by Year"
         )
-        fig3.update_xaxes(
-            showgrid = False, 
-            zeroline = False,
-            title = "Year"
-        )
-        fig3.update_yaxes(
-            # showticklabels = False,
-            showgrid = False,
-            zeroline = False,
-            title = "Index Value",
+    else:
+        fig3.update_layout(
+            title_text = "Consumer Price Index by Year"
         )
 
-        return fig1, fig2, fig3
+    fig3.update_xaxes(
+        showgrid = False, 
+        zeroline = False,
+        title = "Year"
+    )
+    fig3.update_yaxes(
+        # showticklabels = False,
+        showgrid = False,
+        zeroline = False,
+        # title = "Median Percent Inflation",
+    )
+    if indicator == "inflation_consumer_prices":
+        fig3.update_yaxes(
+            title = "Median Percent Inflation"
+        )
+    else:
+        fig3.update_yaxes(
+            title_text = "Median Price Index"
+        )
+
+    return fig1, fig2, fig3
+
+    # elif indicator == "consumer_price_index":
+    #     fig1 = go.Figure(
+    #         data = [
+    #             go.Choropleth(
+    #                 locations = locations,
+    #                 z = filtered_df[year],
+    #             )
+    #         ]    
+    #     )
+    #     fig1.update_layout(
+    #         paper_bgcolor = '#BAD0E3', 
+    #         font_size = 14,
+    #         plot_bgcolor='#E8EFF6',
+    #         title_text = "CPI by Country",
+    #         legend_title = "<b>Income Groups</b>",
+    #         margin=dict(l=60, r=60, t=60, b=60),
+    #         width = 710,
+    #         height = 400,
+    #     )
+        
+    #     fig1.update_traces(
+    #         colorscale = 'sunsetdark',
+    #         colorbar_title_text = "CPI",
+    #         name = 'CPI',
+    #         hovertemplate = ('%{z:.2f}% <extra>%{text}</extra>'), text = percent,
+    #     ) 
+
+    #     fig2 = px.violin(
+    #         filtered_df_no_uc,
+    #         x = year,
+    #         y = 'income_group',
+    #         color = 'income_group',
+    #         color_discrete_map = {
+    #             'Low income': '#001D9B',
+    #             'Lower middle income': '#31009B',
+    #             'Upper middle income': '#7E009B',
+    #             'High income': '#9B006B',
+    #         },
+    #         category_orders = {
+    #             "income_group": [
+    #                 "Low income", "Lower middle income",
+    #                 "Upper middle income", "High income",
+    #             ],
+    #         },
+    #         custom_data = ['country_name'],
+    #     )
+    #     fig2.update_layout(
+    #         paper_bgcolor = '#BAD0E3', 
+    #         font_size = 14,
+    #         plot_bgcolor='#E8EFF6',
+    #         title_text = "CPI Distributions",
+    #         legend_title = "<b>Income Groups</b>",
+    #         width = 710,
+    #         height = 400  
+    #     )
+    #     fig2.update_xaxes(
+    #         showgrid = False, 
+    #         zeroline = False,
+    #         title = "Consumer Price Index"
+    #     )
+    #     fig2.update_yaxes(
+    #         showticklabels = False,
+    #         title = None,
+    #     )
+    #     fig2.update_traces(
+    #         # title = "CPI Distributions",
+    #         points = "all",
+    #         hovertemplate = "%{x:.2f}%<extra>%{customdata[0]}</extra>",
+    #         hoveron = "points + kde",
+    #         box_visible = True,   
+    #     )
+
+    #     fig3 = px.line(
+    #         df_med_per_year,
+    #         color_discrete_map = {
+    #             'Low income': '#001D9B',
+    #             'Lower middle income': '#31009B',
+    #             'Upper middle income': '#7E009B',
+    #             'High income': '#9B006B',
+    #             },
+    #         category_orders = {
+    #             "income_group": [
+    #                 "Low income", "Lower middle income",
+    #                 "Upper middle income", "High income",
+    #             ],
+    #         },
+    #     )
+    #     fig3.update_layout(
+    #         paper_bgcolor = '#BAD0E3', 
+    #         font_size = 14,
+    #         plot_bgcolor='#E8EFF6',
+    #         title_text = "CPI by Year",
+    #         legend_title = "<b>Income Groups</b>",
+    #     )
+    #     fig3.update_xaxes(
+    #         showgrid = False, 
+    #         zeroline = False,
+    #         title = "Year"
+    #     )
+    #     fig3.update_yaxes(
+    #         # showticklabels = False,
+    #         showgrid = False,
+    #         zeroline = False,
+    #         title = "Index Value",
+    #     )
+
+    #     return fig1, fig2, fig3
