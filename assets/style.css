@@ -9,9 +9,10 @@
 
 #right-container {
     float: right;
+    margin-top: 20px;
 }
 
-#line-graph {
+#line-graph1 {
     height: 400px;
     width: 1450px;
     background-color: #BAD0E3;
