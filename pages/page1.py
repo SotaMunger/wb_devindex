@@ -77,7 +77,7 @@ layout = html.Div(children = [
             ),
             html.Br(),
             html.Img(
-                    src = "assets/globe1.png",
+                    src = "https://github.com/SotaMunger/wb_devindex/tree/main/assets/globe1.png",
                     width = 240,
                     className = "globe",
             ),
