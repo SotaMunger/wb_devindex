@@ -5,6 +5,9 @@
     float: left;
     margin-left: 20px;
     margin-top: 20px;
+    box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden;
   }
 
 #right-container {
@@ -12,26 +15,25 @@
     margin-top: 20px;
 }
 
-#line-graph1 {
+#line-graph {
     height: 400px;
-    width: 1450px;
+    width: 1440px;
     background-color: #BAD0E3;
-    /* float: right; */
-    margin-top: 20px;
-    margin-right: 10px;
-}
-
-#non-temporal_graphs {
-    /* float: right; */
-    /* width: 1460px; */
+    margin-right: 20px;
+    box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .choropleth {
     margin-top: 20px;
     margin-right: 10px;
     height: 400px;
-    width: 720px;
+    width: 710px;
     display: inline-block;
+    box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .violin {
@@ -39,8 +41,12 @@
     margin-left: 10px;
     margin-right: 20px;
     height: 400px;
-    width: 720px;
+    width: 710px;
     display: inline-block;
+    border-radius: 20px;
+    box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .dropdown {
@@ -49,8 +55,17 @@
     margin-right: 20px;
 }
 
+.rc-slider-track {
+    background-color: white;
+  }
+
+.rc-slider-mark-text {
+    color: #444;
+}
+
 .menu-title {
     margin-left: 20px;
+    color: #444;
 }
 
 .globe {
