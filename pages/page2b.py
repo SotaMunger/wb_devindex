@@ -46,225 +46,113 @@ indicator_dict ={"agricultural_raw_materials_imports": "Raw Agricultural Imports
                 "fuel_imports": "Fuel Imports", "ores_and_metals_imports": "Ores and Metals Imports"}
 
 # Define the page layout
-
-layout = html.Div(children = [
-    html.Div(
-        children = [
-            html.H2(
-                children = 'Percentage of Merchandise Imported (by Cost)',
-                style = {'textAlign': 'center', 'color': '#FFFFFF', 'margin': '10px'}
-            ),
-            html.Br(),
-            html.Img(
-                    src = "assets/globe1.png",
-                    width = 240,
-                    className = "globe",
-            ),
-            html.Br(),
-            html.Label(
-                children = "Import Type", 
-                className = "menu-title"
-            ),
-            dcc.Dropdown(
-                indicator_dict,
-                id = "indicator_dropdown",
-                value = "agricultural_raw_materials_imports",
-                className = 'dropdown',
-                clearable=False
-            ),
-            html.Br(),
-            html.Div(
-                children = "Income Group", 
-                className = "menu-title"
-            ),
-            dcc.Dropdown(
-                income_dict,
-                id = "income_dropdown",
-                value = "World",
-                className = 'dropdown',
-                clearable=False
-            ),
-            html.Br(),
-            html.Div(
-                children = "Year", 
-                className = "menu-title"
-            ),    
-            dcc.Slider(
-                min = dates.columns.min(),
-                max = dates.columns.max(),
-                step = 1,
-                value=dates.columns.min(),
-                marks = {2001: '2001', 
-                        2005: '2005',
-                        2010: '2010',
-                        2015: '2015', 
-                        2020: '2020',
-                },
-                # marks={str(int(i)): str(int(i)) for i in dates.columns},
-                tooltip={"placement": "bottom"},
-                id='year_slider',
-            )                    
-            # Income group dropdown
-            # html.Div(
-            #     children = [
-            #         html.Div(
-            #             children = "Income Group", 
-            #             className = "menu-title"
-            #         ),
-            #         dcc.Dropdown(
-            #             income_dict,
-            #             id = "income_dropdown",
-            #             value = "World",
-            #         ),
-            #     ],
-            #     style=dict(width='100%')
-            # ),
-        ], 
-        id='left-container',
-        # style=dict(display='flex')
-    ),
-    html.Div(
-        children = [
-            html.Div(
-                children = [
-                    dcc.Graph(
-                        id='imports_line2',
-                        config = {'displayModeBar': False},
-                    )
-                ],
-                id = 'line-graph',
-            ),
-            # Imports Year
-            # html.Div(
-            #     children = [
-            #         html.Div(
-            #             children = "Year", 
-            #             className = "menu-title"
-            #         ),    
-            #         dcc.Slider(
-            #             dates.columns.min(),
-            #             dates.columns.max(),
-            #             step=None,
-            #             value=dates.columns.min(),
-            #             marks={str(int(i)): str(int(i)) for i in dates.columns},
-            #             id='year_slider',
-            #         )
-            #     ]
-            # ),
-            html.Div(
-                children = [
-                    dcc.Graph(
-                        id='imports_choropleth2',
-                        className = 'choropleth',
-                        config = {"displayModeBar": False},
-                        # style = {'display': 'inline-block'},
-                    ),
-                    dcc.Graph(
-                        id='imports_histogram2',
-                        className = 'violin',
-                        config = {"displayModeBar": False},
-                        # style = {'display': 'inline-block'},
-                    ),
-                ], id = 'non-temporal_graphs',
-                    # style=dict(display='flex')
-            ),
-            # html.Div(
-            #     children = [
-            #         dcc.Graph(
-            #             id='imports_line1',
-            #             config = {'displayModeBar': False},
-            #         )
-            #     ]
-            # )
-        ], id = 'right-container'
-    )
-])
-    # Imports income group
-#     html.Div(
-#         children = [
-#             html.Div(
-#                 children = [
-#                     html.Div(
-#                         children = "Import Type (as % of Total Merchandise)", 
-#                         className = "menu-title"),
-#                     dcc.Dropdown(
-#                         indicator_dict,
-#                         id = "indicator_dropdown",
-#                         value = "agricultural_raw_materials_imports"
-#                             ),
-#                 ],
-#                 style=dict(width='50%')
-#             ),
-#             html.Div(
-#                 children = [
-#                     html.Div(
-#                         children = "Income Group", 
-#                         className = "menu-title"
-#                     ),
-#                     dcc.Dropdown(
-#                         income_dict,
-#                         id = "income_dropdown",
-#                         value = "World",
-#                     ),
-#                 ],
-#                 style=dict(width='50%')
-#             ),
-#         ],
-#         style=dict(display='flex')
-#     ),
-#     # Imports Year
-#     html.Div(
-#         children = [
-#             html.Div(
-#                 children = "Year", 
-#                 className = "menu-title"),    
-#             dcc.Slider(
-#                 dates.columns.min(),
-#                 dates.columns.max(),
-#                 step=None,
-#                 value=dates.columns.min(),
-#                 marks={str(int(i)): str(int(i)) for i in dates.columns},
-#                 id='year_slider',
-#             )
-#         ]
-#     ),
-#     html.Div(
-#         children = [
-#             html.H2(
-#                 children = 'Yearly Percentage of Merchandise Value Imported',
-#                 style = {
-#                     'textAlign': 'center',
-#                     'color': '#A3B6C7',
-#                     'margin': '10px'
-#                 }
-#             )
-#         ]
-#     ),
-#     html.Div(
-#         children = [
-#             dcc.Graph(
-#                 id='imports_choropleth2',
-#                 config = {"displayModeBar": False},
-#                 style = {'display': 'inline-block', 'padding': '5px'},
-#             ),
-#             dcc.Graph(
-#                 id='imports_histogram2',
-#                 config = {"displayModeBar": False},
-#                 style = {'display': 'inline-block', 'padding': '5px'},
-#             )
-#         ]
-#     ),
-#     html.Div(
-#         children = [
-#             dcc.Graph(
-#                 id='imports_line2',
-#                 config = {'displayModeBar': False},
-#             )
-#         ],
-#         id = 'line-graph2',
-#         className = 'line-graph'
-#     )
-# ])
+layout = html.Div(
+    [
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.H2(
+                            children = 'Percentage of Merchandise Imported (by Cost)',
+                            style = {'textAlign': 'center', 'color': '#FFFFFF', 'margin': '10px'}
+                        ),
+                        html.Br(),
+                        html.Img(
+                            src = "assets/globe1.png",
+                            width = 240,
+                            className = "globe",
+                        ),
+                        html.Br(),
+                        html.Label(
+                            children = "Import Type", 
+                            className = "menu-title"
+                        ),
+                        dcc.Dropdown(
+                            indicator_dict,
+                            id = "indicator_dropdown",
+                            value = "agricultural_raw_materials_imports",
+                            className = 'dropdown',
+                            clearable=False
+                        ),
+                        html.Br(),
+                        html.Div(
+                            children = "Income Group", 
+                            className = "menu-title"
+                        ),
+                        dcc.Dropdown(
+                            income_dict,
+                            id = "income_dropdown",
+                            value = "World",
+                            className = 'dropdown',
+                            clearable=False
+                        ),
+                        html.Br(),
+                        html.Div(
+                            children = "Year", 
+                            className = "menu-title"
+                        ),    
+                        dcc.Slider(
+                            min = dates.columns.min(),
+                            max = dates.columns.max(),
+                            step = 1,
+                            value=dates.columns.min(),
+                            marks = {2001: '2001', 
+                                    2005: '2005',
+                                    2010: '2010',
+                                    2015: '2015', 
+                                    2020: '2020'
+                            },
+                            tooltip={"placement": "bottom"},
+                            id='year_slider',
+                        )     
+                    ], id='left-container',
+                ),
+                dbc.Col(
+                    [
+                        dbc.Row(
+                            [
+                                html.Div(
+                                    children = [
+                                        dcc.Graph(
+                                            id='imports_line2',
+                                            config = {'displayModeBar': False},
+                                        )
+                                    ], id = 'line-graph',
+                                )
+                            ], id = 'line'
+                        ),
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    dbc.Row([
+                                        html.Div(
+                                            [
+                                                dcc.Graph(
+                                                    id='imports_choropleth2',
+                                                    className = 'choropleth',
+                                                    config = {"displayModeBar": False},
+                                                )
+                                            ], id = 'choro',
+                                        ), 
+                                        html.Div(
+                                            [
+                                                dcc.Graph(
+                                                    id='imports_histogram2',
+                                                    className = 'violin',
+                                                    config = {"displayModeBar": False},
+                                                )
+                                            ], id = "vio",
+                                        ),
+                                    ])
+                                )
+                            ], id = 'non-temporal_graphs'
+                        ),
+                    ], id = 'right-container'
+                )
+            ], 
+        )
+    ]
+)
 
 # define callbacks - inputs include indicator, income group, and year
 @callback(
@@ -337,12 +225,10 @@ def update_figure(indicator, income, year):
         paper_bgcolor = '#BAD0E3', 
         font_size = 14,
         plot_bgcolor = '#E8EFF6',
-        # title_text = "Imports by Country (as % of Total Merchandise Imports)",
         legend_title = "<b>Income Groups</b>",
-        margin=dict(l=60, r=60, t=60, b=60),
-        width = 710,
         height = 400,
     )
+
     if indicator == "agricultural_raw_materials_imports":
         fig1.update_layout(
             title_text = "Agricultural Imports by Country (as % of Total Merchandise Imports)"
@@ -390,8 +276,6 @@ def update_figure(indicator, income, year):
         font_size = 14,
         plot_bgcolor='#E8EFF6',
         legend_title = "<b>Income Groups</b>",
-        # title_text = "Imports Distributions (as % of Total Merchandise Imports)",
-        width = 710,
         height = 400
     )
     if indicator == "agricultural_raw_materials_imports":
@@ -446,10 +330,7 @@ def update_figure(indicator, income, year):
         paper_bgcolor = '#BAD0E3', 
         font_size = 14,
         plot_bgcolor='#E8EFF6',
-        # title_text = "Imports by Year (as % of Total Merchandise Imports)",
         legend_title = "<b>Income Groups</b>",
-        width = 1450,
-        height = 400,
     )
     if indicator == "agricultural_raw_materials_imports":
         fig3.update_layout(
