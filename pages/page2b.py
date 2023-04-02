@@ -364,3 +364,5 @@ def update_figure(indicator, income, year):
     return fig1, fig2, fig3
 
 
+
+    return fig1, fig2, fig3
