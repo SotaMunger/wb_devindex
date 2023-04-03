@@ -291,7 +291,6 @@ def update_figure(indicator, income, year):
 
     fig1.update_traces(
         colorscale = 'sunsetdark',
-        colorbar_title_text = "<b>Inflation</b>",
         hovertemplate = ('%{z:.2f}% <extra>%{text}</extra>'), text = percent,
     )
     if indicator == "inflation_consumer_prices":
