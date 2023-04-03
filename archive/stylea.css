@@ -1,0 +1,92 @@
+#left-container {
+    height: 820px;
+    max-height: 100%;
+    width: 320px;
+    width: 18%;
+    max-width: 18%;
+    background-color:#BAD0E3;  
+    float: left;
+    margin-left: 20px;
+    margin-top: 20px;
+    box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden;
+    object-fit: scale-down;
+  }
+
+/* #right-container {
+    float: right;
+    margin-top: 20px;
+    max-width: 80%;
+    object-fit: scale-down;
+    display: grid;
+} */
+
+/* #non-temporal_graphs {
+    height: 400px;
+    width: 1420px;
+    margin-top: 20px;
+} */
+
+#line-graph {
+    width: 400px;
+    width: 1420px;
+    /* display: block; */
+    background-color: #BAD0E3;
+    box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden;
+    /* object-fit: scale-down; */
+    /* margin-left: 20px; */
+}
+
+.choropleth {
+    margin-top: 20px;
+    margin-right: 10px;
+    height: 400px;
+    width: 710px;
+    display: inline-block;
+    box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden;
+    object-fit: scale-down;
+}
+
+/*
+ .violin {
+    margin-top: 20px;
+    margin-right: 10px;
+    height: 400px;
+    width: 710px;
+    display: inline-block;
+    box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden;
+    object-fit: scale-down;
+}
+
+.dropdown {
+    width: 90px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.rc-slider-track {
+    background-color: white;
+  }
+
+.rc-slider-mark-text {
+    color: #444;
+}
+
+.menu-title {
+    margin-left: 20px;
+    color: #444;
+}
+
+.globe {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+} */

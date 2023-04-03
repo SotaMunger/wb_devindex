@@ -196,7 +196,6 @@ layout = html.Div(children = [
             #             config = {'displayModeBar': False},
             #         )
             #     ]
-            # )
         ], id = 'right-container'
     )
 ])
@@ -283,7 +282,7 @@ def update_figure(indicator, income, year):
 
     if indicator == "inflation_consumer_prices":
         fig1.update_layout(
-            title_text = "Inflation by Country"
+            title_text = "Percent Inflation by Country"
         )
     else:
         fig1.update_layout(
@@ -292,9 +291,16 @@ def update_figure(indicator, income, year):
 
     fig1.update_traces(
         colorscale = 'sunsetdark',
-        colorbar_title_text = "<b>Inflation</b>",
         hovertemplate = ('%{z:.2f}% <extra>%{text}</extra>'), text = percent,
     )
+    if indicator == "inflation_consumer_prices":
+        fig1.update_traces(
+            colorbar_title_text = "<b>% Inflation</b>",
+        )
+    else:
+        fig1.update_traces(
+            colorbar_title_text = "<b>Price Index</b>"
+        )
 
     fig2 = px.violin(
         filtered_df_no_uc,
