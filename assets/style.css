@@ -11,6 +11,7 @@
     box-shadow: 2px 2px lightslategrey;
     border-radius: 5px;
     overflow: hidden;
+    object-fit: scale-down;
   }
 
 /* #right-container {
@@ -71,6 +72,19 @@
     width: 50%;
     /* display: flex; */
     /* object-fit: scale-down; */
+    /* box-shadow: 2px 2px lightslategrey;
+    border-radius: 5px;
+    overflow: hidden; */
+    /* margin-top: 20px; */
+}
+
+.choropleth {
+    /* display: inline-block;
+    object-fit: scale-down;
+    overflow: hidden;
+    height: 400px;
+    margin-top: 20px; */
+    /* width: 100%; */
     box-shadow: 2px 2px lightslategrey;
     border-radius: 5px;
     overflow: hidden;
@@ -94,18 +108,18 @@
     object-fit: scale-down; */
 }
 
-.choropleth {
-    /* margin-top: 20px;
+/* .choropleth {
+    margin-top: 20px;
     margin-right: 10px;
     height: 200px;
     width: 710px;
-    display: inline-block; */
+    display: inline-block;
     box-shadow: 2px 2px lightslategrey;
     border-radius: 5px;
     overflow: hidden;
-    /* max-width: 50%;
-    object-fit: scale-down; */
-}
+    max-width: 50%;
+    object-fit: scale-down;
+} */
 
 /* .violin {
     display: inline-block;
