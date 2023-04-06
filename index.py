@@ -1,4 +1,4 @@
-# Import necessary libraries 
+    # Import necessary libraries 
 from dash import html, dcc
 from dash.dependencies import Input, Output
 
@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output
 from app import app, server
 
 # Connect to your app pages
-from pages import home, page1, page2
+from pages import home, page1b, page2b
 
 # Connect the navbar to the index
 from components import navbar
@@ -20,9 +20,12 @@ nav = dbc.NavbarSimple(
     children = [
         dbc.DropdownMenu(
             children = [
-                dbc.DropdownMenuItem("Home", href = "http://wb-devindex.onrender.com"),
-                dbc.DropdownMenuItem("Inflation", href = "http://wb-devindex.onrender.com/inflation"),
-                dbc.DropdownMenuItem("Imports", href = "http://wb-devindex.onrender.com/imports")
+                dbc.DropdownMenuItem("Home", href = "http://127.0.0.1:8050/home"),
+                dbc.DropdownMenuItem("Inflation", href = "http://127.0.0.1:8050/inflation"),
+                dbc.DropdownMenuItem("Imports", href = "http://127.0.0.1:8050/imports")
+                # dbc.DropdownMenuItem("Home", href = "http://wb-devindex.onrender.com"),
+                # dbc.DropdownMenuItem("Inflation", href = "http://wb-devindex.onrender.com/inflation"),
+                # dbc.DropdownMenuItem("Imports", href = "http://wb-devindex.onrender.com/imports")
             ],
             nav=True,
             in_navbar = True,
@@ -46,9 +49,9 @@ app.layout = html.Div([
               [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/inflation':
-        return page1.layout
+        return page1b.layout
     if pathname == '/imports':
-        return page2.layout
+        return page2b.layout
     else:
         return home.layout
 
