@@ -68,7 +68,11 @@ income_dict = [
         "value": "High income",
         "title": "GNI per capita above $13,025"
     },
-
+    {
+        "label": "Uncategorized",
+        "value": "Uncategorized",
+        "title": "Venezuela"
+    }
 ]
 
 indicator_dict = [
