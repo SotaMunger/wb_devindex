@@ -354,6 +354,11 @@ def update_figure(indicator, income, year):
         title = "Median Percentage GDP Growth",
     )
 
+    fig3.update_traces(
+        # hoverinfo = "text"
+        hovertemplate = ('GDP Growth: %{y}%'),
+    )
+
     return fig1, fig2, fig3
 
     

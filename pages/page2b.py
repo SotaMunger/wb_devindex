@@ -39,11 +39,64 @@ col_dict = dict(zip(old_cols, new_cols))
 dates.rename(mapper = col_dict, axis = 1, inplace=True)
 
 # create dicts for pulldown menus - {psql categories: pull down display categories}
-income_dict = {"World": "World", "Low income": "Low Income", "Lower middle income": "Lower Middle Income", \
-    "Upper middle income": "Upper Middle Income", "High income": "High Income", "Uncategorized": "Uncategorized"}
+income_dict = [
+    {
+        "label": "World",
+        "value": "World",
+        "title": "World"
+    },
+    {
+        "label": "Low Income",
+        "value": "Low income",
+        "title": "GNI per capita below $1,086"
+    },
+    {
+        "label": "Lower Middle Income",
+        "value": "Lower middle income",
+        "title": "GNI per capita between $1,086 and $4,255"
+    },
+    {
+        "label": "Upper Middle Income",
+        "value": "Upper middle income",
+        "title": "GNI per capita between $4,256 and $13,025"
+    },
+    {
+        "label": "High Income",
+        "value": "High income",
+        "title": "GNI per capita above $13,025"
+    },
+    {
+        "label": "Uncategorized",
+        "value": "Uncategorized",
+        "title": "Venezuela"
+    }
+]
 
 indicator_dict ={"agricultural_raw_materials_imports": "Raw Agricultural Imports", "food_imports": "Food Imports",
                 "fuel_imports": "Fuel Imports", "ores_and_metals_imports": "Ores and Metals Imports"}
+
+indicator_dict = [
+    {
+        "label": "Raw Agricultural Imports",
+        "value": "agricultural_raw_materials_imports",
+        "title": "Raw Agricultural Imports"
+    },
+    {
+        "label": "Food Imports",
+        "value": "food_imports",
+        "title": "Food Imports"
+    },
+    {
+        "label": "Fuel Imports",
+        "value": "fuel_imports",
+        "title": "Fuel Imports"
+    },
+    {
+        "label": "Ores and Metals Imports",
+        "value": "ores_and_metals_imports",
+        "title": "Ores and Metals Imports"
+    }
+]
 
 # Define the page layout
 layout = html.Div(
@@ -360,7 +413,14 @@ def update_figure(indicator, income, year):
         zeroline = False,
         title = "Median Percentage of Import Costs",
     )
+    fig3.update_traces(
+        hovertemplate = "Percent of Import Costs: %{y:.2f}%"
+    )
 
     return fig1, fig2, fig3
+
+
+
+
 
 
