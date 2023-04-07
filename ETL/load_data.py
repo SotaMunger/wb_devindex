@@ -166,11 +166,11 @@ def create_tables():
     csv_path = "../data/extracted/separated/"
 
     # Define database connection variables using environmental variables
-    DB_NAME = os.environ['DBNM']
-    DB_USER = os.environ['DBUS']
-    DB_PASS = os.environ['DBPS']
-    DB_HOST = os.environ['DBHS']
-    DB_PORT = os.environ['DBPT']
+    DB_NAME = os.environ.get('DBNM')
+    DB_USER = os.environ.get('DBUS')
+    DB_PASS = os.environ.get('DBPS')
+    DB_HOST = os.environ.get('DBHS')
+    DB_PORT = os.environ.get('DBPT')
 
     # connect to database
     try:
