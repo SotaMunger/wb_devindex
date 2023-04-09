@@ -1,9 +1,7 @@
-from dash import Dash, dcc, html, Input, Output, callback
-# from pages import page1, page2
-
 import dash
 import dash_bootstrap_components as dbc
 
+# reference font style and css file
 external_stylesheets = [
     {
         "href": "https://fonts.googleapis.com/css2?"
@@ -12,8 +10,9 @@ external_stylesheets = [
     },
 ]
 
-app = dash.Dash(__name__, 
-                # external_stylesheets = external_stylesheets,
+# define app
+app = dash.Dash(__name__,
+                # define style of navbar
                 external_stylesheets=[dbc.themes.MORPH], 
                 meta_tags=[{"name": "viewport", "content": "width=device-width"}],
                 suppress_callback_exceptions=True)

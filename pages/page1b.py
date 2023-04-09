@@ -16,13 +16,17 @@ DB_PASS = os.environ.get('DBPS')
 DB_HOST = os.environ.get('DBHS')
 DB_PORT = os.environ.get('DBPT')
 
+# define connection variable
 conn = psycopg2.connect(database=DB_NAME,
                             user=DB_USER,
                             password=DB_PASS,
                             host=DB_HOST,
                             port=DB_PORT)
+
+# define cursor variable
 cur = conn.cursor()
 
+# define function to create pandas table from sql query
 def create_pandas_table(sql_query, database = conn):
     table = pd.read_sql_query(sql_query, database)
     return table
@@ -89,23 +93,28 @@ layout = html.Div(
     [
         dbc.Row(
             [
+                # side bar
                 dbc.Col(
                     [
+                        # header
                         html.H2(
                             children = 'Inflationary Measures',
                             style = {'textAlign': 'center', 'color': '#FFFFFF', 'margin': '10px'}
                         ),
                         html.Br(),
+                        # globe image
                         html.Img(
                             src = "assets/globe1.png",
                             width = 240,
                             className = "globe",
                         ),
                         html.Br(),
+                        # indicator dropdown text description
                         html.Label(
                             children = "Inflation Indicator", 
                             className = "menu-title"
                         ),
+                        # indicator dropdown
                         dcc.Dropdown(
                             indicator_dict,
                             id = "indicator_dropdown",
@@ -114,10 +123,12 @@ layout = html.Div(
                             clearable=False
                         ),
                         html.Br(),
+                        # income dropdown text description
                         html.Div(
                             children = "Income Group", 
                             className = "menu-title"
                         ),
+                        # indicator dropdown
                         dcc.Dropdown(
                             income_dict,
                             id = "income_dropdown",
@@ -126,10 +137,12 @@ layout = html.Div(
                             clearable=False
                         ),
                         html.Br(),
+                        # year slider bar text description
                         html.Div(
                             children = "Year", 
                             className = "menu-title"
                         ),    
+                        # year slider
                         dcc.Slider(
                             min = dates.columns.min(),
                             max = dates.columns.max(),
@@ -141,17 +154,20 @@ layout = html.Div(
                                     2015: '2015', 
                                     2020: '2020'
                             },
+                            #tooltip property shows value on hover
                             tooltip={"placement": "bottom"},
                             id='year_slider',
                         )     
                     ], id='left-container',
                 ),
+                # main body
                 dbc.Col(
                     [
                         dbc.Row(
                             [
                                 html.Div(
                                     children = [
+                                        # line graph
                                         dcc.Graph(
                                             id='imports_line1',
                                             config = {'displayModeBar': False},
@@ -165,7 +181,9 @@ layout = html.Div(
                                 dbc.Col(
                                     dbc.Row([
                                         html.Div(
+                                            # choropleth container
                                             [
+                                                # choropleth
                                                 dcc.Graph(
                                                     id='imports_choropleth1',
                                                     className = 'choropleth',
@@ -174,7 +192,9 @@ layout = html.Div(
                                             ], id = 'choro',
                                         ), 
                                         html.Div(
+                                            # violin plot container
                                             [
+                                                # violin plot
                                                 dcc.Graph(
                                                     id='imports_histogram1',
                                                     className = 'violin',
@@ -211,6 +231,7 @@ def update_figure(indicator, income, year):
     new_cols = [i for i in range(2001,2021)]
     col_dict = dict(zip(old_cols, new_cols))
     df.rename(mapper = col_dict, axis = 1, inplace=True)
+    # df_no_uc leaves out countries not categorized into an income group (improves violin plot visualization)
     df_no_uc = df.loc[df['income_group'] != "Uncategorized"]
 
     # declare income group lists
@@ -246,29 +267,35 @@ def update_figure(indicator, income, year):
         filtered_df_no_uc = df.loc[df['country_code'].isin(uc), ['country_name', 'country_code', 'income_group', year]]
         locations = filtered_df['country_code']
 
-    filtered_median = np.median(filtered_df[year].loc[filtered_df[year].notna()])
-    filtered_mean = np.mean(filtered_df[year].loc[filtered_df[year].notna()])
+    # declare variable representing the full country name
     percent = filtered_df['country_name']
 
+    # calculate the yearly median for each income group
     df_med_per_year = df_no_uc.groupby('income_group').median('numeric_only').transpose()
 
     # define graph structures
+    # fig1 = choropleth
     fig1 = go.Figure(
         data = [
             go.Choropleth(
+                # locations represent countries in selected income group
                 locations = locations,
+                # z is the indicator value for each country in the selected year
                 z = filtered_df[year],
             )
         ]    
-    )        
+    )       
+    # update_layout sets graph size, font size, background color, etc. 
     fig1.update_layout(
+        # paper_bgcolor is the color of the background behind the plots    
         paper_bgcolor = '#BAD0E3', 
         font_size = 14,
+        # plot bg_color is the color of the background behind the text, legend, etc.
         plot_bgcolor='#E8EFF6',
         legend_title = "<b>Income Groups</b>",
         height = 400,
     )
-
+    # update graph title depending on indicator dropdown selection
     if indicator == "inflation_consumer_prices":
         fig1.update_layout(
             title_text = "Percent Inflation by Country"
@@ -277,11 +304,12 @@ def update_figure(indicator, income, year):
         fig1.update_layout(
             title_text = "CPI by Country"
         )
-
+    # update_traces sets plot element colors, hover text template
     fig1.update_traces(
         colorscale = 'sunsetdark',
         hovertemplate = ('%{z:.2f}% <extra>%{text}</extra>'), text = percent,
     )
+    # update color bar title depending on indicator drop-down selection
     if indicator == "inflation_consumer_prices":
         fig1.update_traces(
             colorbar_title_text = "<b>% Inflation</b>",
@@ -291,11 +319,15 @@ def update_figure(indicator, income, year):
             colorbar_title_text = "<b>Price Index</b>"
         )
 
+    # fig2 = violin plot
     fig2 = px.violin(
         filtered_df_no_uc,
+        # x-axis is value of indicator
         x = year,
+        # y-axis is the income group
         y = 'income_group',
         color = 'income_group',
+        # define colors for each income group
         color_discrete_map = {
             'Low income': '#001D9B',
             'Lower middle income': '#31009B',
@@ -308,8 +340,10 @@ def update_figure(indicator, income, year):
                 "Upper middle income", "High income",
             ],
         },
+        # create variable to hold country name
         custom_data = ['country_name'],
     )
+    # update_layout sets graph size, font size, background color, etc.
     fig2.update_layout(
         paper_bgcolor = '#BAD0E3', 
         font_size = 14,
@@ -318,7 +352,7 @@ def update_figure(indicator, income, year):
         title_text = "Inflation Distributions",
         height = 400
     )
-
+    # update graph title depending on indicator dropdown selection
     if indicator == "inflation_consumer_prices":
         fig2.update_layout(
             title_text = "Inflation Distributions"
@@ -327,12 +361,12 @@ def update_figure(indicator, income, year):
         fig2.update_layout(
             title_text = "CPI Distributions"
         )
-
+    # update_xaxes removes the vertical gridlines
     fig2.update_xaxes(
         showgrid = False, 
         zeroline = False,
     )
-
+    # update x-axis title depending on indicator dropdown selection
     if indicator == "inflation_consumer_prices":
         fig2.update_xaxes(
             title = "Percent Inflation"
@@ -341,11 +375,13 @@ def update_figure(indicator, income, year):
         fig2.update_xaxes(
             title_text = "Price Index"
         )
-
+    # update_yaxes removes the y-axis ticks
     fig2.update_yaxes(
         showticklabels = False,
         title = None,
     )
+    # update_traces sets plots to show all country points, creates custom
+    # hovertext appearance, and sets jitter (vertical dispersion of points)
     fig2.update_traces(
         points = "all",
         hovertemplate = "%{x:.2f}%<extra>%{customdata[0]}</extra>",
@@ -353,7 +389,7 @@ def update_figure(indicator, income, year):
         box_visible = True,
         jitter = 0.5
     )
-
+    # fig3 = line graph
     fig3 = px.line(
         df_med_per_year,
         color_discrete_map = {
@@ -369,13 +405,14 @@ def update_figure(indicator, income, year):
             ],
         },
     )
+    # update_layout sets graph size, font size, background color, etc.
     fig3.update_layout(
         paper_bgcolor = '#BAD0E3', 
         font_size = 14,
         plot_bgcolor='#E8EFF6',
         legend_title = "<b>Income Groups</b>",
     )
-
+    # update graph title depending on indicator dropdown selection
     if indicator == "inflation_consumer_prices":
         fig3.update_layout(
             title_text = "Inflation by Year"
@@ -390,12 +427,12 @@ def update_figure(indicator, income, year):
         zeroline = False,
         title = "Year"
     )
+    # update_xaxes removes the horizontal gridlines
     fig3.update_yaxes(
-        # showticklabels = False,
         showgrid = False,
         zeroline = False,
-        # title = "Median Percent Inflation",
     )
+    # update y-axis title depending on indicator dropdown selection
     if indicator == "inflation_consumer_prices":
         fig3.update_yaxes(
             title = "Median Percent Inflation"
@@ -404,7 +441,7 @@ def update_figure(indicator, income, year):
         fig3.update_yaxes(
             title_text = "Median Price Index"
         )
-
+    # update hover template depending on indicator dropdown selection
     if indicator == "inflation_consumer_prices":
         fig3.update_traces(
             hovertemplate = "Percent Inflation: %{y:.2f}%"

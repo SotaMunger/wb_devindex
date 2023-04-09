@@ -5,37 +5,34 @@ from dash.dependencies import Input, Output
 # Connect to main app.py file
 from app import app, server
 
-# Connect to your app pages
+# Connect to app pages
 from pages import home, page1b, page2b, page3
-
-# Connect the navbar to the index
-from components import navbar
 
 import dash_bootstrap_components as dbc
 
 # define the navbar
-# nav = navbar.Navbar()
-
 nav = dbc.NavbarSimple(
     children = [
         dbc.DropdownMenu(
+            # define urls in dropdown menu
             children = [
-                # dbc.DropdownMenuItem("Home", href = "http://127.0.0.1:8050/home"),
-                # dbc.DropdownMenuItem("Inflation", href = "http://127.0.0.1:8050/inflation"),
-                # dbc.DropdownMenuItem("Imports", href = "http://127.0.0.1:8050/imports"),
-                # dbc.DropdownMenuItem("Growth", href = "http://127.0.0.1:8050/growth")
-                dbc.DropdownMenuItem("Home", href = "http://wb-devindex.onrender.com"),
-                dbc.DropdownMenuItem("Inflation", href = "http://wb-devindex.onrender.com/inflation"),
-                dbc.DropdownMenuItem("Imports", href = "http://wb-devindex.onrender.com/imports"),
-                dbc.DropdownMenuItem("Growth", href = "http://wb-devindex.onrender.com/growth")
+                dbc.DropdownMenuItem("Home", href = "http://127.0.0.1:8050/home"),
+                dbc.DropdownMenuItem("Inflation", href = "http://127.0.0.1:8050/inflation"),
+                dbc.DropdownMenuItem("Imports", href = "http://127.0.0.1:8050/imports"),
+                dbc.DropdownMenuItem("Growth", href = "http://127.0.0.1:8050/growth")
+                # dbc.DropdownMenuItem("Home", href = "http://wb-devindex.onrender.com"),
+                # dbc.DropdownMenuItem("Inflation", href = "http://wb-devindex.onrender.com/inflation"),
+                # dbc.DropdownMenuItem("Imports", href = "http://wb-devindex.onrender.com/imports"),
+                # dbc.DropdownMenuItem("Growth", href = "http://wb-devindex.onrender.com/growth")
             ],
             nav=True,
             in_navbar = True,
             label = "Page",
         ),
     ],
+    # set navbar title and background color
     brand="Economics of International Food Insecurity",
-    brand_href = "#",
+    brand_href = "home",
     color = "#A3B6C7",
     dark = True,
 )
@@ -47,6 +44,7 @@ app.layout = html.Div([
     html.Div(id='page-content', children=[]), 
 ])
 
+# Display page according to href
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
