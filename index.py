@@ -16,14 +16,14 @@ nav = dbc.NavbarSimple(
         dbc.DropdownMenu(
             # define urls in dropdown menu
             children = [
-                dbc.DropdownMenuItem("Home", href = "http://127.0.0.1:8050/home"),
-                dbc.DropdownMenuItem("Inflation", href = "http://127.0.0.1:8050/inflation"),
-                dbc.DropdownMenuItem("Imports", href = "http://127.0.0.1:8050/imports"),
-                dbc.DropdownMenuItem("Growth", href = "http://127.0.0.1:8050/growth")
-                # dbc.DropdownMenuItem("Home", href = "http://wb-devindex.onrender.com"),
-                # dbc.DropdownMenuItem("Inflation", href = "http://wb-devindex.onrender.com/inflation"),
-                # dbc.DropdownMenuItem("Imports", href = "http://wb-devindex.onrender.com/imports"),
-                # dbc.DropdownMenuItem("Growth", href = "http://wb-devindex.onrender.com/growth")
+                # dbc.DropdownMenuItem("Home", href = "http://127.0.0.1:8050/home"),
+                # dbc.DropdownMenuItem("Inflation", href = "http://127.0.0.1:8050/inflation"),
+                # dbc.DropdownMenuItem("Imports", href = "http://127.0.0.1:8050/imports"),
+                # dbc.DropdownMenuItem("Growth", href = "http://127.0.0.1:8050/growth")
+                dbc.DropdownMenuItem("Home", href = "http://wb-devindex.onrender.com"),
+                dbc.DropdownMenuItem("Inflation", href = "http://wb-devindex.onrender.com/inflation"),
+                dbc.DropdownMenuItem("Imports", href = "http://wb-devindex.onrender.com/imports"),
+                dbc.DropdownMenuItem("Growth", href = "http://wb-devindex.onrender.com/growth")
             ],
             nav=True,
             in_navbar = True,
